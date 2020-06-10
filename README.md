@@ -10,6 +10,8 @@ simple radio propagation simulation
 5. Click on Installs on left corner for downloading Unity Version: 2019.3.15f1
 6. Run the project
 
+**Rays appear only on scene, not from game camera because the script was using Debug tool instead of drawing actual 3D line**
+
 ## Map
 All contents are in /Assets directory. Objects folder contains objects that are in the scence. \
 Scenes are in folder /Scences. First scence is ray emiting from tower, second scence is from objects. \
