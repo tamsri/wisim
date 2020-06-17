@@ -40,20 +40,20 @@ public class raybounce : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, max_distance, 1))
             {
-                Debug.DrawLine(position, hit.point, new Color(.6f + 0.4f * i / max_bounce, .4f, .4f, 0.3f));
+                Debug.DrawLine(position, hit.point, new Color(.6f + 0.4f * i / max_bounce, .4f, .4f, 0.7f));
                 position = hit.point;
-                direction = hit.normal;
+                direction += hit.normal;
             }
             else
             {
                 if (i == 0)
                 {
-                    Debug.DrawRay(position, direction * max_distance, new Color(.5f, .75f, .5f, 0.3f));
+                    Debug.DrawRay(position, direction * max_distance, new Color(.5f, .75f, .5f, 0.7f));
 
                 }
                 else
                 {
-                    Debug.DrawRay(position, direction * max_distance, new Color(.6f + 0.4f * i / max_bounce, .4f, .6f, 0.2f));
+                    Debug.DrawRay(position, direction * max_distance, new Color(.6f + 0.4f * i / max_bounce, .4f, .6f, 0.7f));
                 }
                 break;
             }
