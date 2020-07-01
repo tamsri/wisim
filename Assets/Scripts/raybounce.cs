@@ -8,6 +8,7 @@ public class raybounce : MonoBehaviour
     public int max_v_ray = 20;
     public int max_bounce = 3;
     public float max_distance = 1;
+    public float distance_step = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -29,7 +30,7 @@ public class raybounce : MonoBehaviour
             }
             
         }
-        max_distance += 0.2f;
+        max_distance += distance_step;
     }
     void CastRay(Vector3 position, Vector3 direction)
     {
