@@ -110,6 +110,8 @@ MonoBehaviour:
   frequency: 2.4
   hb: 0
   hm: 0
+  debug_line_on: 0
+  render_on: 0
   pl: 0
 --- !u!1001 &3344751400465961970
 PrefabInstance:

@@ -11,6 +11,8 @@ public class winner : MonoBehaviour
     public float hb;
     public float hm;
     public const float c = 3e8f;
+    public bool debug_line_on = true;
+    public bool render_on = true;
     TextMesh textbar;
     public double pl;
     bool isLOS;
@@ -27,14 +29,23 @@ public class winner : MonoBehaviour
     void Start()
     {
         textbar = gameObject.GetComponent<TextMesh>();
+        
     }
-
-    // Update is called once per frame
     void Update()
     {
-        //Debug.DrawLine(transform.position, transmitter.transform.position, Color.blue);
+        if (true) {
+            Render();
+            //render_on = false;
+        }
+    }
+    // Update is called once per frame
+    void Render()
+    {
+        if(debug_line_on) Debug.DrawLine(transform.position, transmitter.transform.position, Color.blue);
         direction =  transmitter.transform.position - transform.position;
-        distance = Vector3.Distance(transform.position, transmitter.transform.position);
+        float dx = (float)Math.Abs(transmitter.transform.position.x - transform.position.x);
+        float dy = (float)Math.Abs(transmitter.transform.position.z - transform.position.z);
+        distance = (float)Math.Sqrt(dx*dx+dy*dy);
         hb = transmitter.transform.position.y;
         hm = transform.position.y;
         hbsc = hb - 1;
@@ -55,31 +66,14 @@ public class winner : MonoBehaviour
         }
         else
         {
-            dl1 = 0.0f;dl2 = 0.0f;
-            dr1 = 0.0f; dl2 = 0.0f;
-            LeftPathFinding();
-            RightPathFinding();
-            float pl1 = 0.0f, pl2 = 0.0f, pr1 = 0.0f, pr2 = 0.0f;
-            if (dl1 != 0.0f && dl2 != 0.0f) {
-                pl1 = GetNLOS(dl1, dl2);
-                pl2 = GetNLOS(dl2, dl1);
-                
-            }
-            if (dr1 != 0.0f && dr2 != 0.0f)
-            {
-                pr1 = GetNLOS(dr1, dr2);
-                pr2 = GetNLOS(dr2, dr1);
-            }
-            List<float> results = new List<float>(); 
-            if (pl1 != 0) results.Add(pl1);
-            if (pl2 != 0) results.Add(pl2);
-            if (pr1 != 0) results.Add(pr1);
-            if (pr2 != 0) results.Add(pr2);
-            if (!results.Any()) {
-                textbar.text = "Cannot trace";
-                return;
-            }
-            pl = results.Min();
+            dl1 = dx; dl2 = dy;
+            dr1 = dy; dr2 = dx;
+            //LeftPathFinding();
+            //RightPathFinding();
+            float p1, pf2;
+            p1 = GetNLOS(dr1, dr2);
+            p2 = GetNLOS(dr2, dr1);
+            pl = (p1 > p2) ? p2 : p1;
             textbar.text = "NLOS: " + pl.ToString();
         }
         
@@ -116,17 +110,17 @@ public class winner : MonoBehaviour
         if (Physics.Raycast(check_ray, out check_hit, distance, 1))
         {
             distanceToEdge = Vector3.Distance(transform.position, check_hit.point) + 0.05f;
-            //Debug.DrawLine(transform.position, check_hit.point, Color.green);
+            if (debug_line_on) Debug.DrawLine(transform.position, check_hit.point, Color.green);
         }
         else
         {
             return;
         }
-        //Debug.DrawLine(transform.position, transform.position + RightEdge * distanceToEdge, Color.red);
+        if (debug_line_on) Debug.DrawLine(transform.position, transform.position + RightEdge * distanceToEdge, Color.red);
 
         //Second ray
         Vector3 second_origin = transform.position + distanceToEdge * RightEdge;
-        //Debug.DrawLine(transform.position, second_origin, Color.red);
+        if (debug_line_on) Debug.DrawLine(transform.position, second_origin, Color.red);
         Vector3 second_direction = Vector3.Normalize(transmitter.transform.position - second_origin);
         float second_distance = Vector3.Distance(second_origin, transmitter.transform.position);
 
@@ -134,7 +128,7 @@ public class winner : MonoBehaviour
         RaycastHit second_check_hit;
         if (Physics.Raycast(second_ray, out second_check_hit, second_distance, 1) && second_check_hit.transform.position == transmitter.transform.position)
         {
-            //Debug.DrawLine(second_origin, second_check_hit.point, Color.yellow);
+            if (debug_line_on) Debug.DrawLine(second_origin, second_check_hit.point, Color.yellow);
         }
         else
         {
@@ -167,17 +161,17 @@ public class winner : MonoBehaviour
         if (Physics.Raycast(check_ray, out check_hit, distance, 1))
         {
             distanceToEdge = Vector3.Distance(transform.position, check_hit.point) + 0.05f;
-            //Debug.DrawLine(transform.position, check_hit.point, Color.green);
+            if (debug_line_on) Debug.DrawLine(transform.position, check_hit.point, Color.green);
         }
         else
         {
             return;
         }
-        //Debug.DrawLine(transform.position, transform.position + LeftEdge * distanceToEdge, Color.red);
+        if (debug_line_on) Debug.DrawLine(transform.position, transform.position + LeftEdge * distanceToEdge, Color.red);
 
         //Second ray
         Vector3 second_origin = transform.position + distanceToEdge * LeftEdge;
-        //Debug.DrawLine(transform.position, second_origin, Color.red);
+        if (debug_line_on) Debug.DrawLine(transform.position, second_origin, Color.red);
         Vector3 second_direction = Vector3.Normalize(transmitter.transform.position - second_origin);
         float second_distance = Vector3.Distance(second_origin, transmitter.transform.position);
 
@@ -185,7 +179,7 @@ public class winner : MonoBehaviour
         RaycastHit second_check_hit;
         if (Physics.Raycast(second_ray, out second_check_hit, second_distance, 1) && second_check_hit.transform.position == transmitter.transform.position)
         {
-            //Debug.DrawLine(second_origin, second_check_hit.point, Color.yellow);
+            if (debug_line_on) Debug.DrawLine(second_origin, second_check_hit.point, Color.yellow);
         }
         else
         {
@@ -198,7 +192,7 @@ public class winner : MonoBehaviour
 
     Vector3 GetEdgeAngle(Vector3 LeftAngle, Vector3 RightAngle)
     {
-        //Debug.DrawLine(transform.position, transform.position+ 10 * LeftAngle, Color.yellow);
+        if (debug_line_on) Debug.DrawLine(transform.position, transform.position+ 10 * LeftAngle, Color.yellow);
 
         // Divide and Conqure
         const int max_itr = 18; // log2(90) == ~6 !

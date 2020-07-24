@@ -1176,6 +1176,11 @@ PrefabInstance:
       propertyPath: transmitter
       value: 
       objectReference: {fileID: 153406309}
+    - target: {fileID: 4930984115372662175, guid: c8c13e259b7ac2844a174d1a96c5eb8d,
+        type: 3}
+      propertyPath: render_on
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c8c13e259b7ac2844a174d1a96c5eb8d, type: 3}
 --- !u!1001 &7115750688537169340
@@ -1277,7 +1282,7 @@ PrefabInstance:
     - target: {fileID: 7410175823707586220, guid: 84012898d83dcb046aebe2390dd92e6c,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7410175823707586221, guid: 84012898d83dcb046aebe2390dd92e6c,
         type: 3}
