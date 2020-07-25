@@ -53,12 +53,13 @@ public class winner : MonoBehaviour
         float dbp = 4*hbsc*hmsc*frequency*1e9f/c;
         if (distance < 10 || distance > dbp) {
             textbar.text = "The condition does not meet requirements";
+            pl = -1;
             return;
         }
 
         RaycastHit hit;
         Ray ray = new Ray(transform.position, direction);
-        if (Physics.Raycast(ray, out hit, distance, 1) && hit.transform.position == transmitter.transform.position)
+        if (Physics.Raycast(ray, out hit, 1000f, 1) && hit.transform.position == transmitter.transform.position)
         {
             pl = GetLOS(distance);
             textbar.text = "LOS: " + pl.ToString();
@@ -70,13 +71,14 @@ public class winner : MonoBehaviour
             dr1 = dy; dr2 = dx;
             //LeftPathFinding();
             //RightPathFinding();
-            float p1, pf2;
+            float p1, p2;
             p1 = GetNLOS(dr1, dr2);
             p2 = GetNLOS(dr2, dr1);
             pl = (p1 > p2) ? p2 : p1;
             textbar.text = "NLOS: " + pl.ToString();
+            //Debug.DrawLine(transform.position, transmitter.transform.position);
         }
-        
+
     }
     float GetLOS(float d)
     {

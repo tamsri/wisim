@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class colorchanges : MonoBehaviour
 {
-    const float min = 55.0f;
-    const float max = 100.0f;
+    public const float min = 50f;
+    public const float max = 103f;
     public float pl;
     // Update is called once per frame
     void Update()
@@ -13,13 +13,21 @@ public class colorchanges : MonoBehaviour
         //float pl = (float)GetComponent<winner>().pl;
         pl = (float)gameObject.GetComponentInParent<winner>().pl;
         //Debug.Log(pl.ToString());
-        if (pl == 0f)
-        {
-            GetComponent<MeshRenderer>().material.SetColor("_Color", new Vector4(0.6f, 0.6f, 1f, .9f));
+        GetComponent<MeshRenderer>().material.SetColor("_Color", GetHeatColor(pl));
+    }
+    Vector4 GetHeatColor(float value) {
+        if (value == -1f) return new Vector4(1f, 1f, 1f, 1f);
+        if (value < min || value > max) return new Vector4(0f,0f,0f,1f);
+        float r, g, b;
+        float nv = (value - min) / (max - min);
+        if(nv<0.5f){
+            r = -2*nv+1f;
+            b = 0;
+        }else{
+            r = 0;
+            b = 2*nv-1f;
         }
-        else
-        {
-            GetComponent<MeshRenderer>().material.SetColor("_Color", new Vector4(1.0f - (pl - min)*0.6f / (max - min), 0.2f, .2f, .9f));
-        }
+        g = (1-r-b);
+        return new Vector4(r, g, b, 1f);
     }
 }
