@@ -1,7 +1,7 @@
 # WiSim
 WiSim is a wireless communication simulation based on WINNER channel model with Unity engine. The simulation calculate the path loss on a geometry-based stochastic channel mode.
 
-![]("img/intro.PNG")
+![]("https://github.com/SupawatDev/wisim/raw/master/img/intro.PNG")
 
 
 ## Get started
