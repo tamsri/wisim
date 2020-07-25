@@ -1,5 +1,8 @@
-# wisim
-simple radio propagation simulation
+# WiSim
+WiSim is a wireless communication simulation based on WINNER channel model with Unity engine. The simulation calculate the path loss on a geometry-based stochastic channel mode.
+
+![]("img/intro.PNG")
+
 
 ## Get started
 1. Download [Unity Hub](https://unity3d.com/get-unity/download)
@@ -12,7 +15,3 @@ simple radio propagation simulation
 
 **Rays appear only on scene, not from game camera because the script was using Debug tool instead of drawing actual 3D line**
 
-## Map
-All contents are in /Assets directory. Objects folder contains objects that are in the scence. \
-Scenes are in folder /Scences. First scence is ray emiting from tower, second scence is from objects. \
-Scripts are in folder /Scripts. each script can assign to the objects in the sence.
